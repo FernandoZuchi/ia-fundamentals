@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/regular/style.css"
+    />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.1/src/fill/style.css"
+    />
+    <title>Codi Short</title>
+  </head>
+  <body>
+    <div id="app">
+      <img src="/logo.svg" alt="Logo" />
+      <h1>Codi Shorts</h1>
+
+      <form id="form">
+        <input type="url" id="url" placeholder="Insira a URL do short" required />
+        <button title="Resumir">
+          <i class="ph ph-play"></i>
+        </button>
+      </form>
+
+      <h2>Resumo</h2>
+      <p class="placeholder">Escolha um shorts do youtube para resumir</p>
+    </div>
+    <script type="module" src="web/main.js"></script>
+  </body>
+</html>

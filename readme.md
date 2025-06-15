@@ -1,7 +1,3 @@
-Aqui está o artigo reescrito de forma mais envolvente, dinâmica e já no formato `.md`, pronto para colar no seu README do GitHub:
-
----
-
 # Aula 01 - Fundamentos da Inteligência Artificial 🌐🧠
 
 ## 📍 Contextualização
@@ -211,4 +207,3 @@ Agora que você entende os fundamentos… vamos nos aprofundar nas técnicas que
 
 ---
 
-Se quiser, posso te gerar um próximo capítulo ou até um roadmap de estudo avançado. Quer?

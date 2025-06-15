@@ -16,9 +16,7 @@ Uma aplicação web moderna para resumir vídeos shorts do YouTube usando inteli
 Primeiro, crie a pasta do projeto e inicialize o npm:
 
 ```bash
-mkdir ia-fundamentals
-cd ia-fundamentals
-npm init -y
+npm create vite@latest
 ```
 
 ### Passo 2: Instalando dependências
@@ -26,7 +24,7 @@ npm init -y
 Instale o Vite como ferramenta de build:
 
 ```bash
-npm install --save-dev vite
+npm i
 ```
 
 ### Passo 3: Configurando o package.json
@@ -142,7 +140,6 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* Adicione gradualmente mais propriedades */
 }
 ```
 
@@ -169,7 +166,7 @@ Crie `web/styles/app.css` para estilizar o container principal:
 
 #app > h1 {
     color: #996dff;
-    /* Cor roxa característica */
+
 }
 ```
 
@@ -192,7 +189,6 @@ Crie `web/styles/form.css` para o formulário:
 #form > input {
     height: 48px;
     width: 450px;
-    /* Continue com demais propriedades */
 }
 ```
 
@@ -217,38 +213,9 @@ import './styles/form.css'
 **Por que importar CSS no JS?**
 O Vite processa essas importações e otimiza o carregamento dos estilos.
 
-### Passo 11: Adicionando funcionalidade (expandir conforme necessário)
-
-Para adicionar interatividade ao formulário:
-
-```javascript
-// Capturar elementos do DOM
-const form = document.getElementById('form')
-const urlInput = document.getElementById('url')
-
-// Adicionar event listener
-form.addEventListener('submit', handleSubmit)
-
-function handleSubmit(event) {
-    event.preventDefault()
-    // Lógica de processamento da URL
-}
-```
-
-## 🎨 Assets e Recursos
-
-### Passo 12: Logo SVG
-
-Crie o arquivo `public/logo.svg` com um logo personalizado. O SVG fornecido utiliza:
-- Máscaras para efeitos visuais
-- Gradientes de cor roxa
-- Formas geométricas modernas
-
-**Dica**: Use ferramentas como Figma ou Adobe Illustrator para criar SVGs personalizados.
-
 ## 🔧 Scripts de Build e Desenvolvimento
 
-### Passo 13: Executando o projeto
+### Executando o projeto
 
 Para rodar o projeto em desenvolvimento:
 
@@ -258,23 +225,6 @@ npm run web
 
 Isso iniciará o servidor de desenvolvimento do Vite, geralmente em `http://localhost:5173`.
 
-### Passo 14: Build para produção
-
-Para criar uma versão otimizada:
-
-```bash
-npx vite build
-```
-
-## 📱 Responsividade e Boas Práticas
-
-### Considerações importantes:
-
-1. **Mobile-first**: Comece sempre pensando em dispositivos móveis
-2. **Acessibilidade**: Use labels, alt texts e cores contrastantes
-3. **Performance**: Otimize imagens e use lazy loading quando necessário
-4. **SEO**: Meta tags adequadas e estrutura semântica
-
 ### Próximos passos para expandir:
 
 1. **Integração com APIs**: Conectar com APIs de IA para processamento
@@ -283,30 +233,11 @@ npx vite build
 4. **Error handling**: Tratamento adequado de erros
 5. **Testes**: Implementar testes unitários e de integração
 
-## 🚀 Deploy
-
-Para deploy, considere plataformas como:
-- Vercel
-- Netlify  
-- GitHub Pages
-
-Todas suportam projetos Vite nativamente.
-
-## 📚 Recursos Adicionais
+## 📚 Recursos
 
 - [Documentação do Vite](https://vitejs.dev/)
 - [CSS Flexbox Guide](https://css-tricks.com/snippets/css/a-guide-to-flexbox/)
 - [Phosphor Icons](https://phosphoricons.com/)
 - [Google Fonts](https://fonts.google.com/)
-
-## 🤝 Contribuindo
-
-1. Faça um fork do projeto
-2. Crie uma branch para sua feature
-3. Commit suas mudanças
-4. Push para a branch
-5. Abra um Pull Request
-
 ---
 
-**Desenvolvido com ❤️ usando tecnologias web modernas**

@@ -19,9 +19,29 @@
     text-align: justify;
     width: 512px;
     margin-top: -5px;
+    line-height: 1.6;
 }
 
 #app .placeholder {
     color: #7c7c8a;
     user-select: none;
+}
+
+#app .loading {
+    color: #996dff;
+    font-style: italic;
+    animation: pulse 1.5s ease-in-out infinite alternate;
+}
+
+#app .error {
+    color: #ff6b6b;
+}
+
+@keyframes pulse {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0.5;
+    }
 }

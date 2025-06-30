@@ -16,6 +16,8 @@ export const download = (videoId) => {
             fs.mkdirSync('./temp');
         }
 
+        let videoInfo = null;
+
         // Inicia o download do vídeo com configurações específicas
         ytdl(videoUrl, {
             quality: 'lowestaudio',  // Escolhe a menor qualidade de áudio (menor tamanho)
@@ -23,6 +25,7 @@ export const download = (videoId) => {
         })
         // Evento disparado quando as informações do vídeo são obtidas
         .on("info", (info) => {
+            videoInfo = info;
             console.log("Título:", info.videoDetails.title);
             const seconds = info.videoDetails.lengthSeconds;
             console.log("Duração em segundos:", seconds);
@@ -37,7 +40,10 @@ export const download = (videoId) => {
         // Evento disparado quando o download e salvamento são concluídos
         .on("finish", () => {
             console.log("Download concluído!");
-            resolve(`./temp/${videoId}.mp3`); // Resolve a Promise com o caminho do arquivo
+            resolve({
+                audioPath: `./temp/${videoId}.mp3`,
+                videoInfo: videoInfo
+            }); // Resolve a Promise com o caminho do arquivo e informações do vídeo
         })
         // Evento disparado se houver erro ao salvar o arquivo
         .on("error", (error) => {

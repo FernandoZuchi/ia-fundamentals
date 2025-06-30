@@ -1,6 +1,78 @@
-# Dia 01 - Fundamentos da Inteligência Artificial 🌐🧠
+# Codi Shorts - Resumidor de YouTube Shorts com IA 🎬🤖
 
-> Neste curso express, vamos abrir os olhos para o mundo da Inteligência Artificial (IA) e revelar que ela vai muito além dos modelos generativos que dominam as mídias hoje. Vamos explorar suas raízes, seus desafios e seu potencial transformador.
+Este projeto é uma aplicação web que baixa, transcreve e resume vídeos do YouTube Shorts usando **Inteligência Artificial real** da OpenAI.
+
+## 🚀 Como usar
+
+1. **Instalar dependências:**
+```bash
+npm install
+```
+
+2. **⚠️ OBRIGATÓRIO - Configurar OpenAI:**
+   - Vá para https://platform.openai.com/api-keys
+   - Crie uma conta (tem crédito grátis para testes)
+   - Crie uma nova chave API
+   - Edite o arquivo `.env` e substitua `sua-chave-da-openai-aqui` pela sua chave
+
+3. **Iniciar o servidor backend:**
+```bash
+npm run server
+```
+O servidor estará disponível em `http://localhost:3333`
+
+4. **Iniciar o frontend (em outro terminal):**
+```bash
+npm run web
+```
+O frontend estará disponível em `http://localhost:5173`
+
+4. **Usar a aplicação:**
+   - Acesse `http://localhost:5173`
+   - Cole o link de um YouTube Short no campo de input
+   - Clique no botão de play
+   - Aguarde o processamento e veja o resumo
+
+## 📁 Estrutura do Projeto
+
+```
+├── server/                 # Backend Express
+│   ├── index.js           # Servidor principal
+│   ├── download.js        # Download de vídeos do YouTube
+│   ├── transcribe.js      # Transcrição de áudio
+│   ├── summarize.js       # Resumo com IA
+│   └── utils/             # Exemplos estáticos
+├── web/                   # Frontend
+│   ├── main.js           # Entrada principal
+│   ├── form.js           # Lógica do formulário
+│   ├── server.js         # Cliente HTTP
+│   └── styles/           # Estilos CSS
+├── public/               # Arquivos estáticos
+└── temp/                # Arquivos temporários (criado automaticamente)
+```
+
+## 🤖 Tecnologias de IA Utilizadas
+
+- **🎤 OpenAI Whisper**: Transcrição de áudio em tempo real
+- **🧠 OpenAI GPT-3.5**: Resumo inteligente do conteúdo
+- **Backend**: Node.js, Express, CORS
+- **Frontend**: Vite, Vanilla JavaScript, CSS
+- **Download**: @distube/ytdl-core
+- **HTTP Client**: Axios
+
+## 🎯 Como Funciona
+
+1. **Download**: Baixa o áudio do YouTube Shorts
+2. **Transcrição**: OpenAI Whisper converte áudio em texto
+3. **Resumo**: OpenAI GPT-3.5 analisa e resume o conteúdo
+4. **Resultado**: Resumo inteligente e contextualizado
+
+## ⚠️ Observações
+
+- **Este projeto usa IA REAL da OpenAI**
+- Requer chave da OpenAI válida para funcionar
+- Consome créditos da sua conta OpenAI por uso
+- A pasta `temp/` é criada automaticamente para armazenar arquivos de áudio baixados
 
 ---
 
@@ -437,6 +509,595 @@ O ecossistema de Inteligência Artificial é vasto e em constante evolução. Es
 - **Como funciona:** IA analisa exames, imagens médicas e históricos para auxiliar diagnósticos, prever doenças e sugerir tratamentos.
 ---
 
+# 🎯 Roteiro Completo: Aula de IA com YouTube Shorts
+
+## 📋 **ROTEIRO DA APRESENTAÇÃO** (45-60 minutos)
+
+### 🎬 **ABERTURA** (5 minutos)
+```
+"Hoje vamos criar uma aplicação que usa IA REAL para processar vídeos.
+Não é apenas um conceito - é um projeto funcional que você pode usar hoje!
+
+O que vamos construir:
+✅ Download automático de YouTube Shorts
+✅ Transcrição com OpenAI Whisper 
+✅ Resumo inteligente com GPT
+✅ Interface moderna e responsiva
+"
+```
+
+### 🧠 **CONTEXTUALIZAÇÃO: IA NO MUNDO REAL** (8 minutos)
+
+#### **1. O que é IA na prática?**
+```
+"IA não é ficção científica - está em todo lugar:
+• Netflix recomenda filmes
+• Google traduz idiomas
+• Spotify sugere músicas
+• Instagram detecta rostos
+
+Mas como funciona na prática? Vamos descobrir construindo!"
+```
+
+#### **2. APIs de IA Modernas**
+```
+"Hoje não precisamos treinar modelos do zero.
+Empresas como OpenAI disponibilizam:
+
+🎤 Whisper: Transcrição de áudio profissional
+🧠 GPT: Compreensão e geração de texto
+🖼️ DALL-E: Geração de imagens
+
+Vamos usar as duas primeiras!"
+```
+
+---
+
+## 🛠️ **DESENVOLVIMENTO PASSO A PASSO**
+
+### **ETAPA 1: Estrutura Base** (8 minutos)
+
+#### **1.1 Criando o Projeto**
+```bash
+# Mostrar no terminal
+mkdir youtube-shorts-ai
+cd youtube-shorts-ai
+npm init -y
+```
+
+**EXPLICAÇÃO:**
+```
+"Começamos com um projeto Node.js limpo.
+Vamos usar módulos ES6 modernos."
+```
+
+#### **1.2 Configurando package.json**
+```javascript
+{
+  "name": "youtube-shorts-ai",
+  "type": "module", // ← Importante para ES6
+  "scripts": {
+    "web": "vite",
+    "server": "node --watch server/index.js" // ← Hot reload
+  }
+}
+```
+
+#### **1.3 Instalando Dependências**
+```bash
+npm install express cors @distube/ytdl-core openai dotenv axios vite
+```
+
+**EXPLICAÇÃO:**
+```
+"Cada pacote tem um propósito:
+• express: Servidor web
+• cors: Comunicação frontend/backend  
+• @distube/ytdl-core: Download do YouTube
+• openai: APIs de IA
+• dotenv: Variáveis de ambiente
+• axios: Requisições HTTP
+• vite: Servidor de desenvolvimento"
+```
+
+### **ETAPA 2: Backend - Download de Vídeos** (10 minutos)
+
+#### **2.1 Criando server/download.js**
+```javascript
+import ytdl from '@distube/ytdl-core';
+import fs from 'fs';
+
+export const download = (videoId) => {
+    const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+    console.log("📥 Baixando:", videoId);
+
+    return new Promise((resolve, reject) => {
+        // Criar pasta temp se não existir
+        if (!fs.existsSync('./temp')) {
+            fs.mkdirSync('./temp');
+        }
+
+        let videoInfo = null;
+
+        ytdl(videoUrl, {
+            quality: 'lowestaudio',
+            filter: 'audioonly'
+        })
+        .on("info", (info) => {
+            videoInfo = info;
+            console.log("🎬 Título:", info.videoDetails.title);
+        })
+        .on("error", reject)
+        .pipe(fs.createWriteStream(`./temp/${videoId}.mp3`))
+        .on("finish", () => {
+            resolve({
+                audioPath: `./temp/${videoId}.mp3`,
+                videoInfo: videoInfo
+            });
+        })
+        .on("error", reject);
+    });
+}
+```
+
+**PONTOS IMPORTANTES:**
+```
+"Aqui temos conceitos importantes:
+1. Promises para operações assíncronas
+2. Streams para eficiência de memória
+3. Event-driven programming
+4. Extração apenas do áudio (mais rápido)"
+```
+
+#### **2.2 Testando o Download**
+```javascript
+// Criar um teste rápido
+import { download } from './download.js';
+
+// Testar com um ID real
+const result = await download('VIDEO_ID_EXEMPLO');
+console.log('Sucesso:', result);
+```
+
+### **ETAPA 3: Integração com OpenAI** (12 minutos)
+
+#### **3.1 Configurando Variáveis de Ambiente**
+```bash
+# Criar .env
+OPENAI_API_KEY=sua-chave-aqui
+```
+
+**EXPLICAÇÃO:**
+```
+"Segurança é fundamental!
+Nunca coloque chaves de API no código.
+Sempre use variáveis de ambiente."
+```
+
+#### **3.2 Criando server/transcribe.js**
+```javascript
+import OpenAI from 'openai';
+import fs from 'fs';
+import 'dotenv/config';
+
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+});
+
+export async function transcribe(audioPath) {
+    console.log('🎤 Transcrevendo com Whisper...');
+    
+    if (!process.env.OPENAI_API_KEY) {
+        throw new Error('Chave OpenAI não configurada');
+    }
+
+    const transcription = await openai.audio.transcriptions.create({
+        file: fs.createReadStream(audioPath),
+        model: 'whisper-1',
+        language: 'pt'
+    });
+
+    console.log('✅ Transcrição completa');
+    return transcription;
+}
+```
+
+**DEMONSTRAÇÃO AO VIVO:**
+```
+"Vamos ver a mágica acontecer!
+O Whisper é o estado da arte em reconhecimento de voz.
+Funciona com múltiplos idiomas e ruído de fundo."
+```
+
+#### **3.3 Criando server/summarize.js**
+```javascript
+import OpenAI from 'openai';
+import 'dotenv/config';
+
+const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY
+});
+
+export async function summarize(text) {
+    console.log('🧠 Resumindo com GPT...');
+    
+    const completion = await openai.chat.completions.create({
+        model: "gpt-3.5-turbo",
+        messages: [
+            {
+                role: "system",
+                content: "Você é especialista em resumir vídeos do YouTube Shorts em português. Crie resumos concisos e informativos."
+            },
+            {
+                role: "user",
+                content: `Resuma este vídeo:\n\n${text}`
+            }
+        ],
+        max_tokens: 100,
+        temperature: 0.5
+    });
+
+    return completion.choices[0].message.content.trim();
+}
+```
+
+**CONCEITOS-CHAVE:**
+```
+"Aqui vemos prompt engineering:
+• System role: Define o comportamento
+• User role: A tarefa específica  
+• Temperature: Criatividade (0-1)
+• Max tokens: Limite de resposta"
+```
+
+### **ETAPA 4: Servidor Express** (8 minutos)
+
+#### **4.1 Criando server/index.js**
+```javascript
+import express from 'express';
+import cors from 'cors';
+import { download } from './download.js';
+import { transcribe } from './transcribe.js';
+import { summarize } from './summarize.js';
+
+const app = express();
+app.use(cors());
+
+app.get('/summary/:id', async (req, res) => {
+    try {
+        console.log('🎬 Processando:', req.params.id);
+        
+        // Pipeline de IA
+        const { audioPath, videoInfo } = await download(req.params.id);
+        const transcription = await transcribe(audioPath);
+        const summary = await summarize(transcription);
+        
+        res.json({
+            result: summary,
+            videoTitle: videoInfo?.videoDetails?.title
+        });
+    } catch (error) {
+        console.error('❌ Erro:', error.message);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+app.listen(3333, () => {
+    console.log('🚀 Servidor rodando em http://localhost:3333');
+});
+```
+
+**DESTAQUE:**
+```
+"Aqui temos o pipeline completo:
+Download → Transcrição → Resumo → Resposta
+
+É um padrão comum em aplicações de IA!"
+```
+
+### **ETAPA 5: Frontend Moderno** (10 minutos)
+
+#### **5.1 Estrutura HTML (index.html)**
+```html
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>YouTube Shorts AI</title>
+</head>
+<body>
+    <div id="app">
+        <h1>🤖 YouTube Shorts AI</h1>
+        <p>Powered by OpenAI Whisper + GPT</p>
+        
+        <form id="form">
+            <input 
+                type="url" 
+                id="url" 
+                placeholder="Cole o link do YouTube Shorts" 
+                required 
+            />
+            <button type="submit">▶️ Processar</button>
+        </form>
+        
+        <div id="result">
+            <p id="content">Cole um link para começar</p>
+        </div>
+    </div>
+    
+    <script type="module" src="/web/main.js"></script>
+</body>
+</html>
+```
+
+#### **5.2 JavaScript Funcional (web/form.js)**
+```javascript
+import { server } from "./server.js";
+
+const form = document.querySelector("#form");
+const input = document.querySelector("#url");
+const content = document.querySelector("#content");
+
+form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    
+    const videoURL = input.value;
+    
+    // Validação básica
+    if (!videoURL.includes("shorts")) {
+        content.textContent = "❌ Precisa ser um YouTube Shorts";
+        return;
+    }
+    
+    // Extrair ID do vídeo
+    const [_, params] = videoURL.split("/shorts/");
+    const [videoId] = params.split("?")[0];
+    
+    // Feedback visual
+    content.textContent = "🎬 Baixando... 🎤 Transcrevendo... 🧠 Resumindo...";
+    content.className = "loading";
+    
+    try {
+        const response = await server.get(`/summary/${videoId}`);
+        
+        content.innerHTML = `
+            <strong>📹 ${response.data.videoTitle}</strong><br><br>
+            <strong>📝 Resumo:</strong> ${response.data.result}
+        `;
+        content.className = "success";
+        
+    } catch (error) {
+        content.textContent = `❌ ${error.response?.data?.error || 'Erro desconhecido'}`;
+        content.className = "error";
+    }
+});
+```
+
+#### **5.3 Cliente HTTP (web/server.js)**
+```javascript
+import axios from 'axios';
+
+export const server = axios.create({
+    baseURL: 'http://localhost:3333'
+});
+```
+
+### **ETAPA 6: Demonstração ao Vivo** (7 minutos)
+
+#### **6.1 Iniciando os Servidores**
+```bash
+# Terminal 1
+npm run server
+
+# Terminal 2  
+npm run web
+```
+
+#### **6.2 Testando com Vídeo Real**
+```
+"Vamos pegar um YouTube Shorts real e ver a IA trabalhando:
+
+1. Colar o link
+2. Observar os logs do servidor
+3. Ver a transcrição sendo criada
+4. Acompanhar o resumo sendo gerado
+5. Resultado final na tela"
+```
+
+---
+
+## 🎓 **PONTOS PEDAGÓGICOS IMPORTANTES**
+
+### **Durante o Desenvolvimento:**
+
+#### **1. Conceitos de IA**
+```
+"Explique sempre O QUE está acontecendo:
+• Whisper não é mágica - é processamento de sinal + ML
+• GPT usa context window e attention mechanisms
+• APIs abstraem a complexidade mas mantêm o poder"
+```
+
+#### **2. Boas Práticas**
+```
+"Destaque padrões profissionais:
+• Tratamento de erros robusto
+• Validação de dados
+• Segurança com variáveis de ambiente
+• Código limpo e comentado"
+```
+
+#### **3. Arquitetura**
+```
+"Mostre a separação de responsabilidades:
+• Frontend: Interface e experiência
+• Backend: Lógica e integração com APIs
+• APIs externas: Poder de processamento"
+```
+
+### **Dicas Para a Apresentação:**
+
+#### **📱 Preparation Checklist**
+```
+✅ Testar tudo antes da aula
+✅ Ter vídeos de exemplo prontos
+✅ Chave da OpenAI válida
+✅ Internet estável
+✅ Código base no GitHub
+✅ Slides com conceitos teóricos
+```
+
+#### **🎯 Engajamento**
+```
+• Mostre resultados reais, não apenas código
+• Deixe os alunos sugerirem vídeos para testar
+• Explique os custos e limitações
+• Compare com soluções tradicionais
+• Discuta aplicações práticas
+```
+
+#### **⚡ Possíveis Problemas**
+```
+• Rate limiting da OpenAI → Mostrar error handling
+• Vídeo indisponível → Ter backups
+• Internet lenta → Explicar tempos de processamento
+• Chave inválida → Demonstrar como configurar
+```
+
+---
+
+## 🚀 **FECHAMENTO E PRÓXIMOS PASSOS** (5 minutos)
+
+### **Recapitulação:**
+```
+"Hoje construímos uma aplicação completa de IA:
+✅ Download automatizado
+✅ Transcrição com Whisper  
+✅ Resumo com GPT
+✅ Interface moderna
+✅ Arquitetura escalável"
+```
+
+### **Extensões Possíveis:**
+```
+"Como levar isso adiante:
+• Adicionar autenticação
+• Salvar histórico no banco
+• Processar vídeos em lote
+• Análise de sentimento
+• Tradução automática
+• Deploy na nuvem"
+```
+
+### **Recursos de Estudo:**
+```
+• Documentação OpenAI
+• Curso de APIs RESTful
+• Padrões de arquitetura
+• Custos e otimização de IA
+```
+
+---
+
+## 📝 **MATERIAL DE APOIO**
+
+### **Slides Essenciais:**
+1. "IA no Cotidiano" - exemplos práticos
+2. "Arquitetura da Solução" - diagrama do fluxo
+3. "APIs vs Modelos Próprios" - prós e contras
+4. "Demonstração ao Vivo" - tela de código
+5. "Resultados Reais" - antes/depois
+6. "Próximos Passos" - extensões
+
+### **Código Final:**
+- Repositório GitHub completo
+- README com instruções
+- Dockerfile para deploy
+- Testes unitários básicos
+
+### **Links Úteis:**
+- [OpenAI API Documentation](https://platform.openai.com/docs)
+- [Node.js Best Practices](https://github.com/goldbergyoni/nodebestpractices)
+- [Modern JavaScript Tutorial](https://javascript.info/)
+- [Express.js Guide](https://expressjs.com/en/guide/routing.html)
+
+### **Exemplos de YouTube Shorts para Testar:**
+```
+• Tutoriais de culinária (5-15 segundos)
+• Dicas de programação (curtos)
+• Curiosidades científicas
+• Reviews de produtos
+• Vlogs rápidos
+```
+
+### **Estrutura de Arquivos Final:**
+```
+youtube-shorts-ai/
+├── server/
+│   ├── index.js          # Servidor principal
+│   ├── download.js       # Download do YouTube
+│   ├── transcribe.js     # OpenAI Whisper
+│   └── summarize.js      # OpenAI GPT
+├── web/
+│   ├── main.js          # Entrada do frontend
+│   ├── form.js          # Lógica do formulário
+│   ├── server.js        # Cliente HTTP
+│   └── styles/          # CSS
+├── public/
+│   └── logo.svg         # Recursos estáticos
+├── temp/                # Áudios baixados
+├── .env                 # Variáveis de ambiente
+├── .gitignore          # Arquivos ignorados
+├── package.json        # Dependências
+└── README.md           # Documentação
+```
+
+**Resultado:** Uma aula prática, envolvente e que mostra o poder real da IA moderna! 🎯🤖
+
+---
+
+## 🔥 **BONUS: Perguntas e Respostas Frequentes**
+
+### **Q: Quanto custa usar as APIs da OpenAI?**
+```
+A: Whisper: ~$0.006 por minuto de áudio
+   GPT-3.5: ~$0.002 por 1K tokens
+   
+   Para um vídeo de 30 segundos:
+   • Whisper: ~$0.003
+   • GPT resumo: ~$0.001
+   Total: ~$0.004 por vídeo
+```
+
+### **Q: Posso usar outros modelos de IA?**
+```
+A: Sim! Alternativas:
+   • Google Cloud Speech-to-Text
+   • Azure Cognitive Services
+   • AWS Transcribe
+   • Hugging Face Transformers
+   • Modelos locais com Ollama
+```
+
+### **Q: Como escalar para muitos usuários?**
+```
+A: Considere:
+   • Queue system (Redis/Bull)
+   • Caching (resultados similares)
+   • Rate limiting
+   • Load balancing
+   • Monitoramento de custos
+```
+
+### **Q: É possível fazer isso sem APIs pagas?**
+```
+A: Sim, mas com limitações:
+   • Whisper local (mais lento)
+   • Modelos open-source
+   • Speech Recognition do browser
+   • Menor qualidade mas funcional
+```
+
 Foco nos estudos!
-Fernando Zuchi, 23 de junho de 2025
+Fernando Zuchi, 30 de junho de 2025
 ---

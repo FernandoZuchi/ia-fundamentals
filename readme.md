@@ -441,10 +441,6 @@ O ciclo de vida de um projeto de IA é iterativo e exige colaboração multidisc
 
 ---
 
-Aqui vai a versão ampliada e mais explicativa da seção, mantendo um tom didático e direto ao ponto para um público desenvolvedor:
-
----
-
 ## 4. Ferramentas e Frameworks Essenciais
 
 O ecossistema de Inteligência Artificial é vasto e em constante evolução. Escolher as ferramentas certas pode acelerar o desenvolvimento e aumentar a qualidade das soluções. Aqui estão as principais tecnologias que todo desenvolvedor de IA precisa conhecer:
@@ -509,46 +505,29 @@ O ecossistema de Inteligência Artificial é vasto e em constante evolução. Es
 - **Como funciona:** IA analisa exames, imagens médicas e históricos para auxiliar diagnósticos, prever doenças e sugerir tratamentos.
 ---
 
-# 🎯 Roteiro Completo: Aula de IA com YouTube Shorts
+# Recapitulando
 
-## 📋 **ROTEIRO DA APRESENTAÇÃO** (45-60 minutos)
-
-### 🎬 **ABERTURA** (5 minutos)
-```
-"Hoje vamos criar uma aplicação que usa IA REAL para processar vídeos.
-Não é apenas um conceito - é um projeto funcional que você pode usar hoje!
+Hoje vamos criar uma aplicação que usa IA REAL para processar vídeos.
+Não é apenas um conceito - é um projeto funcional que você pode usar hoje
 
 O que vamos construir:
 ✅ Download automático de YouTube Shorts
 ✅ Transcrição com OpenAI Whisper 
 ✅ Resumo inteligente com GPT
 ✅ Interface moderna e responsiva
-"
+
 ```
 
-### 🧠 **CONTEXTUALIZAÇÃO: IA NO MUNDO REAL** (8 minutos)
-
-#### **1. O que é IA na prática?**
+#### **1. APIs de IA Modernas**
 ```
-"IA não é ficção científica - está em todo lugar:
-• Netflix recomenda filmes
-• Google traduz idiomas
-• Spotify sugere músicas
-• Instagram detecta rostos
-
-Mas como funciona na prática? Vamos descobrir construindo!"
-```
-
-#### **2. APIs de IA Modernas**
-```
-"Hoje não precisamos treinar modelos do zero.
+Hoje não precisamos treinar modelos do zero.
 Empresas como OpenAI disponibilizam:
 
 🎤 Whisper: Transcrição de áudio profissional
 🧠 GPT: Compreensão e geração de texto
 🖼️ DALL-E: Geração de imagens
 
-Vamos usar as duas primeiras!"
+Vamos usar as duas primeiras!
 ```
 
 ---
@@ -567,8 +546,8 @@ npm init -y
 
 **EXPLICAÇÃO:**
 ```
-"Começamos com um projeto Node.js limpo.
-Vamos usar módulos ES6 modernos."
+Começamos com um projeto Node.js limpo.
+Vamos usar módulos ES6 modernos.
 ```
 
 #### **1.2 Configurando package.json**
@@ -590,14 +569,14 @@ npm install express cors @distube/ytdl-core openai dotenv axios vite
 
 **EXPLICAÇÃO:**
 ```
-"Cada pacote tem um propósito:
+Cada pacote tem um propósito:
 • express: Servidor web
 • cors: Comunicação frontend/backend  
 • @distube/ytdl-core: Download do YouTube
 • openai: APIs de IA
 • dotenv: Variáveis de ambiente
 • axios: Requisições HTTP
-• vite: Servidor de desenvolvimento"
+• vite: Servidor de desenvolvimento
 ```
 
 ### **ETAPA 2: Backend - Download de Vídeos** (10 minutos)
@@ -642,7 +621,6 @@ export const download = (videoId) => {
 
 **PONTOS IMPORTANTES:**
 ```
-"Aqui temos conceitos importantes:
 1. Promises para operações assíncronas
 2. Streams para eficiência de memória
 3. Event-driven programming
@@ -667,12 +645,6 @@ console.log('Sucesso:', result);
 OPENAI_API_KEY=sua-chave-aqui
 ```
 
-**EXPLICAÇÃO:**
-```
-"Segurança é fundamental!
-Nunca coloque chaves de API no código.
-Sempre use variáveis de ambiente."
-```
 
 #### **3.2 Criando server/transcribe.js**
 ```javascript
@@ -702,12 +674,6 @@ export async function transcribe(audioPath) {
 }
 ```
 
-**DEMONSTRAÇÃO AO VIVO:**
-```
-"Vamos ver a mágica acontecer!
-O Whisper é o estado da arte em reconhecimento de voz.
-Funciona com múltiplos idiomas e ruído de fundo."
-```
 
 #### **3.3 Criando server/summarize.js**
 ```javascript
@@ -743,7 +709,7 @@ export async function summarize(text) {
 
 **CONCEITOS-CHAVE:**
 ```
-"Aqui vemos prompt engineering:
+prompt engineering:
 • System role: Define o comportamento
 • User role: A tarefa específica  
 • Temperature: Criatividade (0-1)
@@ -789,10 +755,10 @@ app.listen(3333, () => {
 
 **DESTAQUE:**
 ```
-"Aqui temos o pipeline completo:
+pipeline completo:
 Download → Transcrição → Resumo → Resposta
 
-É um padrão comum em aplicações de IA!"
+É um padrão comum em aplicações de IA"
 ```
 
 ### **ETAPA 5: Frontend Moderno** (10 minutos)
@@ -895,8 +861,6 @@ npm run web
 
 #### **6.2 Testando com Vídeo Real**
 ```
-"Vamos pegar um YouTube Shorts real e ver a IA trabalhando:
-
 1. Colar o link
 2. Observar os logs do servidor
 3. Ver a transcrição sendo criada
@@ -908,11 +872,8 @@ npm run web
 
 ## 🎓 **PONTOS PEDAGÓGICOS IMPORTANTES**
 
-### **Durante o Desenvolvimento:**
-
 #### **1. Conceitos de IA**
 ```
-"Explique sempre O QUE está acontecendo:
 • Whisper não é mágica - é processamento de sinal + ML
 • GPT usa context window e attention mechanisms
 • APIs abstraem a complexidade mas mantêm o poder"
@@ -920,7 +881,6 @@ npm run web
 
 #### **2. Boas Práticas**
 ```
-"Destaque padrões profissionais:
 • Tratamento de erros robusto
 • Validação de dados
 • Segurança com variáveis de ambiente
@@ -929,31 +889,9 @@ npm run web
 
 #### **3. Arquitetura**
 ```
-"Mostre a separação de responsabilidades:
 • Frontend: Interface e experiência
 • Backend: Lógica e integração com APIs
 • APIs externas: Poder de processamento"
-```
-
-### **Dicas Para a Apresentação:**
-
-#### **📱 Preparation Checklist**
-```
-✅ Testar tudo antes da aula
-✅ Ter vídeos de exemplo prontos
-✅ Chave da OpenAI válida
-✅ Internet estável
-✅ Código base no GitHub
-✅ Slides com conceitos teóricos
-```
-
-#### **🎯 Engajamento**
-```
-• Mostre resultados reais, não apenas código
-• Deixe os alunos sugerirem vídeos para testar
-• Explique os custos e limitações
-• Compare com soluções tradicionais
-• Discuta aplicações práticas
 ```
 
 #### **⚡ Possíveis Problemas**
@@ -1001,19 +939,10 @@ npm run web
 
 ## 📝 **MATERIAL DE APOIO**
 
-### **Slides Essenciais:**
-1. "IA no Cotidiano" - exemplos práticos
-2. "Arquitetura da Solução" - diagrama do fluxo
-3. "APIs vs Modelos Próprios" - prós e contras
-4. "Demonstração ao Vivo" - tela de código
-5. "Resultados Reais" - antes/depois
-6. "Próximos Passos" - extensões
 
 ### **Código Final:**
 - Repositório GitHub completo
 - README com instruções
-- Dockerfile para deploy
-- Testes unitários básicos
 
 ### **Links Úteis:**
 - [OpenAI API Documentation](https://platform.openai.com/docs)
